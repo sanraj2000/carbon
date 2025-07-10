@@ -201,18 +201,12 @@ describe('StructuredList', () => {
       renderComponent();
       expect(screen.getByText('ColumnA')).toBeVisible();
     });
-    it('should check that children are rendered', async () => {
+    it('should apply the selected class to the initially selected row', async () => {
       renderInitialSelectionVariant();
       const input = screen.getByTitle('row-1');
       expect(input).toBeChecked();
-      // const input = screen.getByTitle('row-1');
       const selectedRow = input.closest('.cds--structured-list-row');
-
       expect(selectedRow).toHaveClass('cds--structured-list-row--selected');
-
-      // const rows = screen.getAllByText('Row 1');
-      // const selectedRow = rows[0].closest('.cds--structured-list-row');
-      // expect(selectedRow).toHaveClass('cds--structured-list-row--selected');
     });
   });
 
