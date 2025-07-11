@@ -7936,6 +7936,9 @@ Map {
       "head": Object {
         "type": "bool",
       },
+      "id": Object {
+        "type": "string",
+      },
       "label": [Function],
       "onClick": Object {
         "type": "func",
@@ -7975,6 +7978,9 @@ Map {
       },
       "isFlush": Object {
         "type": "bool",
+      },
+      "selectedInitialRowId": Object {
+        "type": "string",
       },
       "selection": Object {
         "type": "bool",
