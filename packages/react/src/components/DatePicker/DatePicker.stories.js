@@ -53,8 +53,15 @@ export default {
 };
 
 const sharedArgs = {
-  invalidText: 'Error message goes here',
-  warnText: 'Warning message goes here',
+  invalidText: 'Enter a valid date',
+  warnText: 'Review the selected date before continuing',
+  placeholder: 'mm/dd/yyyy',
+  helperText: 'Use the calendar or type a date in the expected format.',
+  size: 'md',
+  disabled: false,
+  invalid: false,
+  readOnly: false,
+  warn: false,
 };
 
 const sharedArgTypes = {
@@ -66,6 +73,10 @@ const sharedArgTypes = {
   },
   onOpen: {
     action: 'onOpen',
+  },
+  datePickerType: {
+    options: ['single', 'simple', 'range'],
+    control: { type: 'select' },
   },
   readOnly: {
     control: {
@@ -152,12 +163,13 @@ export const Default = ({ readOnly, ...args }) => {
   );
 };
 
+Default.args = {
+  ...sharedArgs,
+  datePickerType: 'single',
+};
+
 Default.argTypes = {
   ...sharedArgTypes,
-  datePickerType: {
-    options: ['single', 'simple', 'range'],
-    control: { type: 'select' },
-  },
 };
 
 export const Simple = (args) => (
@@ -172,7 +184,18 @@ export const Simple = (args) => (
   </DatePicker>
 );
 
-Simple.argTypes = { ...sharedArgTypes };
+Simple.args = {
+  ...sharedArgs,
+};
+
+Simple.argTypes = {
+  ...sharedArgTypes,
+  datePickerType: {
+    table: {
+      readonly: true,
+    },
+  },
+};
 
 export const SingleWithCalendar = (args) => (
   <DatePicker datePickerType="single" {...args}>
@@ -187,7 +210,18 @@ export const SingleWithCalendar = (args) => (
   </DatePicker>
 );
 
-SingleWithCalendar.argTypes = { ...sharedArgTypes };
+SingleWithCalendar.args = {
+  ...sharedArgs,
+};
+
+SingleWithCalendar.argTypes = {
+  ...sharedArgTypes,
+  datePickerType: {
+    table: {
+      readonly: true,
+    },
+  },
+};
 
 export const RangeWithCalendar = (args) => {
   return (
@@ -212,7 +246,18 @@ export const RangeWithCalendar = (args) => {
   );
 };
 
-RangeWithCalendar.argTypes = { ...sharedArgTypes };
+RangeWithCalendar.args = {
+  ...sharedArgs,
+};
+
+RangeWithCalendar.argTypes = {
+  ...sharedArgTypes,
+  datePickerType: {
+    table: {
+      readonly: true,
+    },
+  },
+};
 
 export const SimpleWithLayer = (args) => (
   <WithLayer>
@@ -231,7 +276,18 @@ export const SimpleWithLayer = (args) => (
   </WithLayer>
 );
 
-SimpleWithLayer.argTypes = { ...sharedArgTypes };
+SimpleWithLayer.args = {
+  ...sharedArgs,
+};
+
+SimpleWithLayer.argTypes = {
+  ...sharedArgTypes,
+  datePickerType: {
+    table: {
+      readonly: true,
+    },
+  },
+};
 
 export const SingleWithCalendarWithLayer = (args) => (
   <WithLayer>
@@ -250,7 +306,18 @@ export const SingleWithCalendarWithLayer = (args) => (
   </WithLayer>
 );
 
-SingleWithCalendarWithLayer.argTypes = { ...sharedArgTypes };
+SingleWithCalendarWithLayer.args = {
+  ...sharedArgs,
+};
+
+SingleWithCalendarWithLayer.argTypes = {
+  ...sharedArgTypes,
+  datePickerType: {
+    table: {
+      readonly: true,
+    },
+  },
+};
 
 export const RangeWithCalendarWithLayer = (args) => (
   <WithLayer>
@@ -277,10 +344,35 @@ export const RangeWithCalendarWithLayer = (args) => (
   </WithLayer>
 );
 
-RangeWithCalendarWithLayer.argTypes = { ...sharedArgTypes };
+RangeWithCalendarWithLayer.args = {
+  ...sharedArgs,
+};
 
-export const Skeleton = () => {
-  return <DatePickerSkeleton range />;
+RangeWithCalendarWithLayer.argTypes = {
+  ...sharedArgTypes,
+  datePickerType: {
+    table: {
+      readonly: true,
+    },
+  },
+};
+
+export const Skeleton = (args) => {
+  return <DatePickerSkeleton {...args} />;
+};
+
+Skeleton.args = {
+  hideLabel: false,
+  range: true,
+};
+
+Skeleton.argTypes = {
+  hideLabel: {
+    control: { type: 'boolean' },
+  },
+  range: {
+    control: { type: 'boolean' },
+  },
 };
 
 export const withAILabel = (args) => {
@@ -331,4 +423,15 @@ export const withAILabel = (args) => {
   );
 };
 
-withAILabel.argTypes = { ...sharedArgTypes };
+withAILabel.args = {
+  ...sharedArgs,
+};
+
+withAILabel.argTypes = {
+  ...sharedArgTypes,
+  datePickerType: {
+    table: {
+      readonly: true,
+    },
+  },
+};

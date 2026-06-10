@@ -33,13 +33,17 @@ const defaultArgs = {
   maxDate: '',
   readonly: false,
   short: false,
-  helperText: '',
+  helperText: 'Use the calendar or type a date in the expected format.',
   invalid: false,
-  invalidText: 'Error message goes here',
-  warnText: 'Warning message goes here',
+  invalidText: 'Enter a valid date',
+  warnText: 'Review the selected date before continuing',
   warn: false,
   placeholder: 'mm/dd/yyyy',
   size: INPUT_SIZE.MEDIUM,
+};
+
+type DatePickerArgs = typeof defaultArgs & {
+  kind?: 'single' | 'simple' | 'range';
 };
 
 const controls = {
@@ -103,6 +107,14 @@ const controls = {
   },
 };
 
+const readonlyKindArgType = {
+  kind: {
+    table: {
+      readonly: true,
+    },
+  },
+};
+
 export const Default = {
   args: { ...defaultArgs, kind: 'single' },
   argTypes: {
@@ -139,7 +151,7 @@ export const Default = {
     size,
     warn,
     warnText,
-  }) => {
+  }: DatePickerArgs) => {
     return html`
       <cds-date-picker
         allow-input="${allowInput}"
@@ -180,7 +192,10 @@ export const Default = {
 
 export const RangeWithCalendar = {
   args: defaultArgs,
-  argTypes: controls,
+  argTypes: {
+    ...controls,
+    ...readonlyKindArgType,
+  },
   render: ({
     allowInput,
     closeOnSelect,
@@ -195,7 +210,7 @@ export const RangeWithCalendar = {
     size,
     warn,
     warnText,
-  }) => {
+  }: DatePickerArgs) => {
     return html`
       <cds-date-picker
         allow-input="${allowInput}"
@@ -236,7 +251,10 @@ export const RangeWithCalendarWithLayer = {
     layout: 'fullscreen',
   },
   args: defaultArgs,
-  argTypes: controls,
+  argTypes: {
+    ...controls,
+    ...readonlyKindArgType,
+  },
   render: ({
     allowInput,
     closeOnSelect,
@@ -251,7 +269,7 @@ export const RangeWithCalendarWithLayer = {
     size,
     warn,
     warnText,
-  }) => {
+  }: DatePickerArgs) => {
     return html`
       <cds-date-picker
         allow-input="${allowInput}"
@@ -288,7 +306,10 @@ export const RangeWithCalendarWithLayer = {
 
 export const Simple = {
   args: defaultArgs,
-  argTypes: controls,
+  argTypes: {
+    ...controls,
+    ...readonlyKindArgType,
+  },
   render: ({
     allowInput,
     closeOnSelect,
@@ -303,7 +324,7 @@ export const Simple = {
     size,
     warn,
     warnText,
-  }) => {
+  }: DatePickerArgs) => {
     return html`
       <cds-date-picker
         allow-input="${allowInput}"
@@ -333,7 +354,10 @@ export const SimpleWithLayer = {
     layout: 'fullscreen',
   },
   args: defaultArgs,
-  argTypes: controls,
+  argTypes: {
+    ...controls,
+    ...readonlyKindArgType,
+  },
   render: ({
     allowInput,
     closeOnSelect,
@@ -348,7 +372,7 @@ export const SimpleWithLayer = {
     size,
     warn,
     warnText,
-  }) => {
+  }: DatePickerArgs) => {
     return html`
       <cds-date-picker
         allow-input="${allowInput}"
@@ -374,7 +398,10 @@ export const SimpleWithLayer = {
 
 export const SingleWithCalendar = {
   args: defaultArgs,
-  argTypes: controls,
+  argTypes: {
+    ...controls,
+    ...readonlyKindArgType,
+  },
   render: ({
     allowInput,
     closeOnSelect,
@@ -389,7 +416,7 @@ export const SingleWithCalendar = {
     size,
     warn,
     warnText,
-  }) => {
+  }: DatePickerArgs) => {
     return html`
       <cds-date-picker
         allow-input="${allowInput}"
@@ -420,7 +447,10 @@ export const SingleWithCalendarWithLayer = {
     layout: 'fullscreen',
   },
   args: defaultArgs,
-  argTypes: controls,
+  argTypes: {
+    ...controls,
+    ...readonlyKindArgType,
+  },
   render: ({
     allowInput,
     closeOnSelect,
@@ -435,7 +465,7 @@ export const SingleWithCalendarWithLayer = {
     size,
     warn,
     warnText,
-  }) => {
+  }: DatePickerArgs) => {
     return html`
       <cds-date-picker
         allow-input="${allowInput}"
@@ -474,13 +504,19 @@ const skeletonControls = {
 export const Skeleton = {
   args: { hideLabel: false, range: true },
   argTypes: skeletonControls,
-  render: ({ hideLabel, range }) => html`
+  render: ({
+    hideLabel,
+    range,
+  }: {
+    hideLabel: boolean;
+    range: boolean;
+  }) => html`
     <cds-date-picker-input-skeleton
       ?hide-label="${hideLabel}"
       ?range="${range}">
     </cds-date-picker-input-skeleton>
   `,
-  decorators: [(story) => html` <div>${story()}</div> `],
+  decorators: [(_story: () => unknown) => html` <div>${_story()}</div> `],
 };
 
 const content = html`
@@ -489,8 +525,8 @@ const content = html`
     <h2 class="ai-label-heading">84%</h2>
     <p class="secondary bold">Confidence score</p>
     <p class="secondary">
-      Lorem ipsum dolor sit amet, di os consectetur adipiscing elit, sed do
-      eiusmod tempor incididunt ut fsil labore et dolore magna aliqua.
+      This suggested delivery date is based on recent order history and current
+      warehouse capacity.
     </p>
     <hr />
     <p class="secondary">Model type</p>
@@ -500,15 +536,15 @@ const content = html`
 
 const actions = html`
   <cds-icon-button kind="ghost" slot="actions" size="lg">
-    ${iconLoader(View16, { slot: 'icon' })}
+    ${iconLoader(View16 as never, { slot: 'icon' })}
     <span slot="tooltip-content"> View </span>
   </cds-icon-button>
   <cds-icon-button kind="ghost" slot="actions" size="lg">
-    ${iconLoader(FolderOpen16, { slot: 'icon' })}
+    ${iconLoader(FolderOpen16 as never, { slot: 'icon' })}
     <span slot="tooltip-content"> Open folder</span>
   </cds-icon-button>
   <cds-icon-button kind="ghost" slot="actions" size="lg">
-    ${iconLoader(Folders16, { slot: 'icon' })}
+    ${iconLoader(Folders16 as never, { slot: 'icon' })}
     <span slot="tooltip-content"> Folders </span>
   </cds-icon-button>
   <cds-ai-label-action-button>View details</cds-ai-label-action-button>
@@ -516,7 +552,10 @@ const actions = html`
 
 export const WithAILabel = {
   args: defaultArgs,
-  argTypes: controls,
+  argTypes: {
+    ...controls,
+    ...readonlyKindArgType,
+  },
   render: ({
     allowInput,
     closeOnSelect,
@@ -531,7 +570,7 @@ export const WithAILabel = {
     size,
     warn,
     warnText,
-  }) => {
+  }: DatePickerArgs) => {
     return html`
       <cds-date-picker
         allow-input="${allowInput}"
@@ -569,3 +608,5 @@ const meta = {
 };
 
 export default meta;
+
+// Made with Bob
